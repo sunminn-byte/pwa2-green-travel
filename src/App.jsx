@@ -1,11 +1,15 @@
 import Header from './components/common/Header.jsx';
 import './App.css';
+import { Outlet } from 'react-router-dom';
 
 function App() {
 
   return (
     <>
-      <h1>Green Travel</h1>
+      <Header></Header>
+      <main>
+        <Outlet />
+      </main>
     </>
   )
 }
