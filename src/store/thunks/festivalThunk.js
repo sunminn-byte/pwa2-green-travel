@@ -4,8 +4,8 @@ import axios from "axios";
 
 const festivalIndex = createAsyncThunk(
   'festivalSlice/festivalIndex',
-  async () => {
-    const url = `${axiosConfig.baseUrl}/searchFestival2`;
+  async (page) => {
+    const url = `${axiosConfig.BASE_URL}/searchFestival2`;
     // ↓ destructuring 문법
     // const params = {
     //   serviceKey: axiosConfig.serviceKey,
@@ -20,11 +20,13 @@ const festivalIndex = createAsyncThunk(
       // AxiosRequestConfig의 default값 말고 셋팅할 값만 작성
       // headers: {},
       params: {
-        serviceKey: axiosConfig.serviceKey,
-        MobileOS: axiosConfig.MobileOS,
-        MobileApp: axiosConfig.MobileApp,
-        _type: axiosConfig.type,
-        arrange: axiosConfig.arrange,
+        serviceKey: axiosConfig.SERVICE_KEY,
+        MobileOS: axiosConfig.MOBILE_OS,
+        MobileApp: axiosConfig.MOBILE_APP,
+        _type: axiosConfig.TYPE,
+        arrange: axiosConfig.ARRANGE,
+        numOfRows: axiosConfig.NUM_OF_ROWS,
+        pageNo: page,
         eventStartDate: '20250401'
       }
     }
