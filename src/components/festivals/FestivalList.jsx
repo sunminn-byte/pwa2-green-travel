@@ -9,41 +9,40 @@ function FestivalList() {
   const dispatch = useDispatch();
 
   const festivalList = useSelector(state => state.festival.list);
-  const page = useSelector(state => state.festival.page);
+  // const page = useSelector(state => state.festival.page);
   const scrollEventFlg = useSelector(state => state.festival.scrollEventFlg);
 
   useEffect(() => {
-    dispatch(festivalIndex(1));
-  }, []);
-  
-  // 스크롤 이벤트용 useEffect
-  useEffect(() => {
+    // 로컬스토리지에 저장된 날짜를 획득
+    //    저장된 날짜 없으면 로컬스토리지에 현재날짜 저장
+    //    저장된 날짜 있으면 아래처리 속행
+    //        오늘날짜랑 비교
+    //            날짜가 과거면 로컬 스토리지 및 스테이트 초기화
+    //            아직 과거가 아니면 처리속행
+    
     window.addEventListener('scroll', addNextPage);
+
+    if(festivalList.length === 0) {
+      dispatch(festivalIndex());
+    }
     
     return () => { // 해당 컴포넌트(FestivalList)가 unmount될 때 제거해줘야 함.
       window.removeEventListener('scroll', addNextPage);
     }
-  }, [page, scrollEventFlg]); // page, scrollEventFlg가 변경되는걸 감지해서 콜백함수 실행
+  }, []);
 
   // 다음 페이지 가져오기
-  // function addNextPage() {
-  //   dispatch(festivalIndex(page + 1));
-  // }
   function addNextPage() {
     // 스크롤 관련 처리
     const docHeight = document.documentElement.scrollHeight; // 문서의 Y축 총 길이
     const winHeight = window.innerHeight; // 윈도우의 Y축 총 길이
-    const nowHeight = window.scrollY; // 현재 스크롤의 Y축 위치
+    const nowHeight = Math.ceil(window.scrollY); // 현재 스크롤의 Y축 위치, 소수점 문제로 math.ceil적용
     const viewHeight = docHeight - winHeight; // 스크롤을 끝까지 내렸을 때의 Y축 위치
 
     if(viewHeight === nowHeight && scrollEventFlg ) {
       dispatch(setScrollEventFlg(false));
-      dispatch(festivalIndex(page + 1));
+      dispatch(festivalIndex());
     }
-    // if((viewHeight * 0.8) <= nowHeight && scrollEventFlg ) {
-    //   dispatch(setScrollEventFlg(false));
-    //   dispatch(festivalIndex(page + 1));
-    // }
   }
 
   return (
