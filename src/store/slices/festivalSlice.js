@@ -63,10 +63,12 @@ const festivalSlice  = createSlice({
 });
 
 // export로 객체로 내보낸다.(destructuring 문법으로 내보내고 받을때도)
+// 컴포넌트나 thunk 함수에서 호출하여 액션을 디스패치할 때 사용됩니다.
 export const {
   // setList
   setScrollEventFlg
 } = festivalSlice.actions;
 
 // export default 는 자체를 내보냄(받을때도 dextructuring 으로 안됨.)
+// 이 reducer는 Redux store에 등록되어야 합니다
 export default festivalSlice.reducer; // store에서 사용하기 위함
