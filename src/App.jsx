@@ -4,6 +4,7 @@ import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { useEffect } from 'react';
 import { localStorageUtil } from './utils/localStorageUtil.js';
 import { dateFormatter } from './utils/dateFormatter.js';
+import BeforeInstallPrompt from './components/BeforeInstallPrompt.jsx';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <>
+      <BeforeInstallPrompt />
       <Header></Header>
       <main>
         <Outlet />
