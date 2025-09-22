@@ -1,6 +1,48 @@
+import { useDispatch, useSelector } from 'react-redux';
 import './StayList.css';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { stayIndex } from '../../store/thunks/stayThunk';
+import { setScrollEventFlg } from '../../store/slices/stayListSlice';
 
 function StayList() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const stayList = useSelector(state => state.stayList.list);
+  // const page = useSelector(state => state.festival.page);
+  const scrollEventFlg = useSelector(state => state.stayList.scrollEventFlg);
+  
+  useEffect(() => {
+    
+    window.addEventListener('scroll', addNextPage);
+
+    if(stayList.length === 0) {
+      dispatch(stayIndex());
+    }
+    
+    return () => {
+      window.removeEventListener('scroll', addNextPage);
+    }
+  }, []);
+
+  function addNextPage() {
+  const docHeight = document.documentElement.scrollHeight;
+  const winHeight = window.innerHeight;
+  const nowHeight = Math.ceil(window.scrollY);
+  const viewHeight = docHeight - winHeight;
+
+  if(viewHeight === nowHeight && scrollEventFlg ) {
+    dispatch(setScrollEventFlg(false));
+    dispatch(stayIndex());
+  }
+}
+
+// 상세(detail)페이지로 이동
+function redirectDetail(item) {
+  navigate(`/stays/${item.contentid}`);
+}
+
   return (
     <>
       {/* <div className="btn-container"> */}
@@ -8,36 +50,17 @@ function StayList() {
         <button type="button">숙박 정보</button>
       {/* </div> */}
       <div className="card-container">
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
-        <div className="card">
-          <div className="card-img" style={{backgroundImage: `url('http://tong.visitkorea.or.kr/cms/resource/00/2626200_image2_1.jpg')`}}></div>
-          <p className="card-title">가경재</p>
-          <p className="card-addr">경상북도 안동시 하회남촌길 69-5</p>
-        </div>
+        {
+          stayList.map(item => {
+            return(
+              <div className="card" onClick={() => { redirectDetail(item) }} key={item.contentid + item.createdtime}>
+                <div className="card-img" style={{backgroundImage: `url('${item.firstimage}')`}}></div>
+                <p className="card-title">{item.title}</p>
+                <p className="card-addr">{item.addr1}</p>
+              </div>
+            )
+          })
+        }
       </div>    
     </>
   )
