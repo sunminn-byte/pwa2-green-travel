@@ -47,9 +47,20 @@ function FestivalList() {
     // dispatch(setFestivalInfo(item));
     navigate(`/festivals/${item.contentid}`);
   }
+  
+  function redirectFestivalList() {
+    navigate(`/festivals`);
+  }
+
+  function redirectStayList() {
+    navigate(`/stays`);
+  }
 
   return (
     <>
+      <button type="button" onClick={redirectFestivalList}>축제 정보</button>
+      <button type="button" onClick={redirectStayList}>숙박 정보</button>
+
       <div className="container">
         {
           // festivalList && festivalList.map(item => {
