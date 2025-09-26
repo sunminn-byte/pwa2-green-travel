@@ -4,8 +4,22 @@
   box-sizing: border-box;
 }
 
+/* CSS에서의 변수 선언 */
+/* index.css 에서 선언하면 다른 css에서는 var로 사용만 하면 됨 */
+/* :root 는 가상 선택자(#root와 상관 없음), html과 영역이 같다고 생각하면 됨(전체, 시작지점) */
+:root {
+  /* 변수명은 무조건 `--변수명`로 시작 */
+  --personal-color-1: #000;
+  --personal-color-2: #fff;
+  --btn-big-width: 300px;
+  --btn-middle-width: 150px;
+  --grid-template-fill-min-300: repeat(auto-fill, minmax(300px, 1fr));
+}
+
 body {
-  background-color: #000;
+  /* background-color: #000; */
+  /* 변수사용 : var(변수명) 호출 */
+  background-color: var(--personal-color-1);
 }
 
 #root {

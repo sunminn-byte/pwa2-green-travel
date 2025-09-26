@@ -26,7 +26,9 @@ const festivalIndex = createAsyncThunk(
       // AxiosRequestConfig의 default값 말고 셋팅할 값만 작성
       // headers: {},
       params: {
-        serviceKey: axiosConfig.SERVICE_KEY,
+        // serviceKey: axiosConfig.SERVICE_KEY,
+        serviceKey: import.meta.env.VITE_SERVICE_KEY,
+
         MobileOS: axiosConfig.MOBILE_OS,
         MobileApp: axiosConfig.MOBILE_APP,
         _type: axiosConfig.TYPE,
